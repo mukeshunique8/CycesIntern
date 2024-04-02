@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import MemeGen from "./components/02/MemeGen";
+import Api from "./components/02/API";
+import Die from "./components/02/Die";
+import WindowTracker from "./components/02/WindowTracker";
+export default function App() {
 
-function App() {
-  const [count, setCount] = useState(0)
+
+  const [randomdie, setrandomdie] = useState(allNewDice());
+    
+  function allNewDice() {
+    const newdice = [];
+    for (let i = 0; i < 10; i++) {
+      const randomTen = Math.ceil(Math.random() * 6);
+      newdice.push(randomTen);
+    }
+    return newdice;
+  }
+  const tenDies = randomdie.map((die, index) => {
+    return <Die key={index} value={die}></Die>;
+  });
+
+  function rolldie() {
+
+    console.log("rolled");
+    
+    setrandomdie(allNewDice())
+  }
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <main className="p-4 mt-8 mx-auto flex flex-col items-center justify-center">
+      <div className="grid gap-4 grid-cols-5">{tenDies}</div>
 
-export default App
+      <div>
+        <button
+          onClick={rolldie}
+          className="bg-blue-500 px-4 py-2 rounded-lg mt-8"
+        >
+          Roll
+        </button>
+      </div>
+    </main>
+  );
+}
